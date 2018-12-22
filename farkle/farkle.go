@@ -56,16 +56,24 @@ func (dice Dice) String() string {
 // Returns a pointer to a Game, with initial values set
 func NewGame() *Game {
 	fmt.Printf("Starting a new game of Farkle.\nRolling Dice...\n\n")
-
-	set := make([]Die, 6)
-	for d := range set {
-		set[d].Roll()
-	}
+	dice := make(Dice, 6)
+	dice.Roll()
 
 	return &Game{
 		Score: 0,
-		Table: set,
+		Table: dice,
 		Hand:  nil,
+	}
+}
+
+func (d Die) Score() int {
+	switch d.Value {
+	case 1:
+		return 100
+	case 5:
+		return 50
+	default:
+		return 0
 	}
 }
 
@@ -77,7 +85,7 @@ func (dice Dice) Score() int {
 
 	// check for a straight
 	if len(counts) == 6 {
-		return 1500
+		return STRAIGHT
 	}
 
 	var total int
@@ -88,7 +96,7 @@ func (dice Dice) Score() int {
 			switch v {
 			case 3:
 				if d.Value == 1 {
-					total += (v - 2) * 1000
+					total += 1000
 				} else {
 					total += d.Value * 100
 				}
@@ -103,17 +111,6 @@ func (dice Dice) Score() int {
 
 	}
 	return total
-}
-
-func (d Die) Score() int {
-	switch d.Value {
-	case 1:
-		return 100
-	case 5:
-		return 50
-	default:
-		return 0
-	}
 }
 
 func (g *Game) Hold(nums []int) Dice {
@@ -132,7 +129,7 @@ func (g *Game) Play() {
 		fmt.Printf("Score:\n%v\n", g.Score)
 		fmt.Printf("Hand:\n%v\n", g.Hand)
 		fmt.Printf("Table:\n%v\n", g.Table)
-		fmt.Printf("Enter die # to keep, (r)oll, (q)uit: ")
+		fmt.Printf("Enter die # to keep, (q)uit: ")
 
 		if g.Table.Score() == 0 {
 			gameover = true
@@ -163,7 +160,6 @@ func (g *Game) Play() {
 				gameover = true
 			}
 		}
-
 	}
 }
 

@@ -18,6 +18,7 @@ func TestRoll(t *testing.T) {
 func TestRollDice(t *testing.T) {
 	dice := Dice{
 		Die{}, Die{}, Die{},
+		Die{}, Die{}, Die{},
 	}
 
 	dice.Roll()
@@ -99,7 +100,6 @@ func TestScore(t *testing.T) {
 	for _, tc := range tt {
 		assert.Equal(t, tc.expected, tc.input.Score(), fmt.Sprintf("expected: %v, got %v", tc.expected, tc.input.Score()))
 	}
-
 }
 
 func TestScoreDice(t *testing.T) {
@@ -182,7 +182,7 @@ func TestScoreDice(t *testing.T) {
 	}
 
 	for _, tc := range tt {
-		assert.Equal(t, tc.expected, tc.input.Score(), fmt.Sprintf("expected: %v, got %v", tc.expected, tc.input.Score()))
+		assert.Equal(t, tc.expected, tc.input.Score(), tc.reason)
 	}
 }
 
